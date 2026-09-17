@@ -1,0 +1,13 @@
+*
+!Dockerfile
+!requirements.lock
+!app
+!app/**
+!config
+!config/**
+!tests
+!tests/**
+**/__pycache__
+**/*.pyc
+**/.env*
+**/*.safetensors

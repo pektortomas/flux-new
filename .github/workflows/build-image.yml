@@ -1,0 +1,48 @@
+name: Build and publish RunPod image
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Immutable release tag, for example 2026-09-17-1
+        required: true
+        default: 2026-09-17-1
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Image name
+        id: image
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME || 'pektor' }}
+          DOCKERHUB_REPOSITORY: ${{ vars.DOCKERHUB_REPOSITORY }}
+        run: |
+          [[ "$RELEASE_TAG" =~ ^[a-zA-Z0-9_][a-zA-Z0-9_.-]{0,127}$ ]] || exit 1
+          [[ "$DOCKERHUB_USERNAME" =~ ^[a-z0-9][a-z0-9_-]+$ ]] || { echo 'Set repository variable DOCKERHUB_USERNAME'; exit 1; }
+          REPOSITORY="${DOCKERHUB_REPOSITORY:-flux-new}"
+          [[ "$REPOSITORY" =~ ^[a-z0-9][a-z0-9_.-]+$ ]] || exit 1
+          echo "name=docker.io/$DOCKERHUB_USERNAME/$REPOSITORY:$RELEASE_TAG" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ vars.DOCKERHUB_USERNAME || 'pektor' }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.image.outputs.name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: mode=min
+      - name: Deployment note
+        env:
+          IMAGE_NAME: ${{ steps.image.outputs.name }}
+        run: echo "Image $IMAGE_NAME built with CPU tests. RTX 5090 inference still requires app/smoke.py on the Pod." >> "$GITHUB_STEP_SUMMARY"

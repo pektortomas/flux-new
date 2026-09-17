@@ -1,0 +1,372 @@
+{
+  "1": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "flux-2-klein-base-9b.safetensors",
+      "weight_dtype": "default"
+    },
+    "_meta": {
+      "title": "quality \u2014 Klein 9B"
+    }
+  },
+  "2": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    },
+    "_meta": {
+      "title": "Qwen3 8B \u2014 flux2"
+    }
+  },
+  "3": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "_meta": {
+      "title": "Standard FLUX.2 VAE"
+    }
+  },
+  "4": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "lora_name": "Maja.safetensors",
+      "strength_model": 1.0
+    },
+    "_meta": {
+      "title": "Maja identity"
+    }
+  },
+  "5": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "4",
+        0
+      ],
+      "lora_name": "smartphone-snapshot-v9.safetensors",
+      "strength_model": 0.35
+    },
+    "_meta": {
+      "title": "Optional: smartphone-snapshot-v9.safetensors"
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "Use image 1 for the scene, camera position, framing, body pose, clothing and lighting. Replace the adult woman with maja, using image 2 for her facial identity. Preserve her facial proportions. Match her lighting to image 1. A natural everyday smartphone photo. amtr snapshot photo"
+    },
+    "_meta": {
+      "title": "Describe the real camera situation"
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": ""
+    },
+    "_meta": {
+      "title": "Empty negative \u2014 base CFG"
+    }
+  },
+  "8": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "scene-reference.png"
+    },
+    "_meta": {
+      "title": "UPLOAD scene / pose reference"
+    }
+  },
+  "9": {
+    "class_type": "ImageScaleToTotalPixels",
+    "inputs": {
+      "image": [
+        "8",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "megapixels": 1.0,
+      "resolution_steps": 16
+    },
+    "_meta": {
+      "title": "Reference ~1 MP"
+    }
+  },
+  "10": {
+    "class_type": "GetImageSize",
+    "inputs": {
+      "image": [
+        "9",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Keep scene aspect ratio"
+    }
+  },
+  "11": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": [
+        "9",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Encode reference 1"
+    }
+  },
+  "12": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": [
+        "6",
+        0
+      ],
+      "latent": [
+        "11",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Reference 1 \u2192 positive"
+    }
+  },
+  "13": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": [
+        "7",
+        0
+      ],
+      "latent": [
+        "11",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Reference 1 \u2192 negative"
+    }
+  },
+  "14": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "identity-reference.png"
+    },
+    "_meta": {
+      "title": "UPLOAD Maja identity reference"
+    }
+  },
+  "15": {
+    "class_type": "ImageScaleToTotalPixels",
+    "inputs": {
+      "image": [
+        "14",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "megapixels": 1.0,
+      "resolution_steps": 16
+    },
+    "_meta": {
+      "title": "Reference ~1 MP"
+    }
+  },
+  "16": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": [
+        "15",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Encode reference 2"
+    }
+  },
+  "17": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": [
+        "12",
+        0
+      ],
+      "latent": [
+        "16",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Reference 2 \u2192 positive"
+    }
+  },
+  "18": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": [
+        "13",
+        0
+      ],
+      "latent": [
+        "16",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Reference 2 \u2192 negative"
+    }
+  },
+  "19": {
+    "class_type": "EmptyFlux2LatentImage",
+    "inputs": {
+      "width": [
+        "10",
+        0
+      ],
+      "height": [
+        "10",
+        1
+      ],
+      "batch_size": 1
+    },
+    "_meta": {
+      "title": "Output \u2014 4:5 or reference aspect"
+    }
+  },
+  "20": {
+    "class_type": "Flux2Scheduler",
+    "inputs": {
+      "steps": 50,
+      "width": [
+        "10",
+        0
+      ],
+      "height": [
+        "10",
+        1
+      ]
+    },
+    "_meta": {
+      "title": "Native Klein schedule"
+    }
+  },
+  "21": {
+    "class_type": "CFGGuider",
+    "inputs": {
+      "model": [
+        "5",
+        0
+      ],
+      "positive": [
+        "17",
+        0
+      ],
+      "negative": [
+        "18",
+        0
+      ],
+      "cfg": 4.0
+    },
+    "_meta": {
+      "title": "Base CFG"
+    }
+  },
+  "22": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "_meta": {
+      "title": "Official Euler baseline"
+    }
+  },
+  "23": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 20260917
+    },
+    "_meta": {
+      "title": "Fixed seed for comparisons"
+    }
+  },
+  "24": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "23",
+        0
+      ],
+      "guider": [
+        "21",
+        0
+      ],
+      "sampler": [
+        "22",
+        0
+      ],
+      "sigmas": [
+        "20",
+        0
+      ],
+      "latent_image": [
+        "19",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Generate"
+    }
+  },
+  "25": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "24",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Decode once \u2014 no face restorer"
+    }
+  },
+  "26": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "25",
+        0
+      ],
+      "filename_prefix": "maja/quality-dual-extras"
+    },
+    "_meta": {
+      "title": "Save PNG + workflow metadata"
+    }
+  }
+}

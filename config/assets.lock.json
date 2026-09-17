@@ -1,0 +1,74 @@
+{
+  "quality": {
+    "repo": "black-forest-labs/FLUX.2-klein-base-9B",
+    "revision": "32773329fbe7e81a90ef971740e8ba4b0364ecf3",
+    "file": "flux-2-klein-base-9b.safetensors",
+    "name": "diffusion_models/flux-2-klein-base-9b.safetensors",
+    "sha256": "4a54fad7f5f741b99eee217198daac20b8d8e515e2a1f5b064fd51cf074f95bd",
+    "size": 18157185168
+  },
+  "balanced": {
+    "repo": "black-forest-labs/FLUX.2-klein-base-9b-fp8",
+    "revision": "9ecf2143d71542449960c5584340269c6d401449",
+    "file": "flux-2-klein-base-9b-fp8.safetensors",
+    "name": "diffusion_models/flux-2-klein-base-9b-fp8.safetensors",
+    "sha256": "a9f5028c24a7a96f4f45beb883aad287d9bccc246227a6803edc898ddda42cf4",
+    "size": 9567278472
+  },
+  "fast": {
+    "repo": "black-forest-labs/FLUX.2-klein-9b-fp8",
+    "revision": "902d9d510b51533e07729f19211414a3648b77d2",
+    "file": "flux-2-klein-9b-fp8.safetensors",
+    "name": "diffusion_models/flux-2-klein-9b-fp8.safetensors",
+    "sha256": "865ba09f5b4c3cbd3468a4bd3acb9fcb2f8740c54317482f0bcd4ed1d3655cee",
+    "size": 9433061528
+  },
+  "text_encoder": {
+    "repo": "Comfy-Org/vae-text-encorder-for-flux-klein-9b",
+    "revision": "3f62d9d8ae1fec33c6e91453d5c712855b096b55",
+    "file": "split_files/text_encoders/qwen_3_8b_fp8mixed.safetensors",
+    "name": "text_encoders/qwen_3_8b_fp8mixed.safetensors",
+    "sha256": "abad16806e0cbabc54e0325d6565847443fe396d5f0be38bb3cd3fe75a1201d6",
+    "size": 8664848742
+  },
+  "text_encoder_bf16": {
+    "repo": "Comfy-Org/vae-text-encorder-for-flux-klein-9b",
+    "revision": "3f62d9d8ae1fec33c6e91453d5c712855b096b55",
+    "file": "split_files/text_encoders/qwen_3_8b.safetensors",
+    "name": "text_encoders/qwen_3_8b.safetensors",
+    "sha256": "f0ff9239d56269ca1d05e5f86da6a79fac111af464955681f11c7ab0ec5ef6c1",
+    "size": 16381517176
+  },
+  "vae": {
+    "repo": "Comfy-Org/vae-text-encorder-for-flux-klein-9b",
+    "revision": "3f62d9d8ae1fec33c6e91453d5c712855b096b55",
+    "file": "split_files/vae/flux2-vae.safetensors",
+    "name": "vae/flux2-vae.safetensors",
+    "sha256": "868fe7b343cc8f3a19dbcfcafbc3d5f888802be3f89bd81b65b3621a066ce8f3",
+    "size": 336211292
+  },
+  "maja": {
+    "repo": "TommyPekk/maja_v2",
+    "revision": "b7e7c1c21c20b065aa0d1abeada05c4eb5b0237f",
+    "file": "Maja.safetensors",
+    "name": "loras/Maja.safetensors",
+    "sha256": "98eae432ea407880537a33f82df8dbb6cf153c84baf3c389103795f1331274da",
+    "size": 165704368
+  },
+  "consistency": {
+    "repo": "dx8152/Flux2-Klein-9B-Consistency",
+    "revision": "8df0c7338cf68cfcd89ca7e461fe679905634607",
+    "file": "Flux2-Klein-9B-consistency-V2.safetensors",
+    "name": "loras/Flux2-Klein-9B-consistency-V2.safetensors",
+    "sha256": "61db2017ce420b97bd5ef11984e5a894c90003a6bbf0dc9473f8d7b9ebb3ff93",
+    "size": 331379608
+  },
+  "snapshot": {
+    "repo": "TommyPekk/maja_v2",
+    "revision": "b7e7c1c21c20b065aa0d1abeada05c4eb5b0237f",
+    "file": "FLUX.2-klein-base-9B_LoRa_by-AI_Characters_STYLE_SmartphoneSnapshotPhotoReality_v9_TRIGGER$amtr snapshot photo$.safetensors",
+    "name": "loras/smartphone-snapshot-v9.safetensors",
+    "sha256": "5a7da07cd276f2d4ba32427605b587de74f819e102265342e6671461a4eda365",
+    "size": 43424056
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Maja — Klein 9B ComfyUI RTX 5090",
+  "imageName": "docker.io/pektor/flux-new:2026-09-17-1",
+  "isPublic": false,
+  "isServerless": false,
+  "containerDiskInGb": 30,
+  "volumeInGb": 100,
+  "volumeMountPath": "/workspace",
+  "ports": ["8188/http"],
+  "dockerEntrypoint": [],
+  "dockerStartCmd": [],
+  "env": {
+    "HF_TOKEN": "REPLACE_IN_RUNPOD_WITH_YOUR_READ_TOKEN",
+    "MODEL_PROFILES": "quality,fast",
+    "MAJA_TRIGGER": "maja",
+    "MAJA_STRENGTH": "1.0",
+    "ENABLE_SNAPSHOT": "1",
+    "SNAPSHOT_STRENGTH": "0.35",
+    "ENABLE_CONSISTENCY": "0",
+    "EXTRA_LORAS_JSON": "[]"
+  }
+}
